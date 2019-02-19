@@ -54,7 +54,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
                                 //inside a loop so context may not be recognized
-                                Toast.makeText(RegistrationActivity.this,"you have successfully registers",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistrationActivity.this,"you have successfully registered",Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(RegistrationActivity.this,LoginActivity.class));
                             }else {
                                 Toast.makeText(RegistrationActivity.this,"something went wrong",Toast.LENGTH_SHORT).show();
@@ -87,7 +87,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
             //if passwords != confpassword display message
             if (!(Password.getText().toString().equalsIgnoreCase(ConfirmPassword.getText().toString()))) {
-                Toast.makeText(this, "Password and Confirm psswords should match", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Password and Confirm passwords should match", Toast.LENGTH_LONG).show();
             }
         } else {
             Result = true;
