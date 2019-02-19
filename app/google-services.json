@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "465311168274",
+    "firebase_url": "https://what-s-up-colombo.firebaseio.com",
+    "project_id": "what-s-up-colombo",
+    "storage_bucket": "what-s-up-colombo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465311168274:android:c9e44f4112c90344",
+        "android_client_info": {
+          "package_name": "com.example.whatsupcolombo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465311168274-ffaifjs9lfd02356nua97oibphqf7j10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8U5vPTtOod7-Ekhp7esXFa7Ouo9TGDPk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
