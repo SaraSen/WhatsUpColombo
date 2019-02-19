@@ -68,7 +68,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
     private void setUpUI() {
-        //assign mentrioned variables to respective xml ida
+        //assign mentioned variables to respective xml id
         Useranme = (EditText) findViewById(R.id.etUserName);
         Email = (EditText) findViewById(R.id.etEmail);
         Password = (EditText) findViewById(R.id.etPassword);
