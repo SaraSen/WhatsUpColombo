@@ -13,6 +13,8 @@ public class Profile_UI extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getActivity().setTitle("Profile");
         return inflater.inflate(R.layout.profile_ui,container,false);
+
     }
 }

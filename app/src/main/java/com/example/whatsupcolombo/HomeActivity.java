@@ -16,11 +16,12 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         //link to xml
@@ -31,6 +32,12 @@ public class HomeActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        //to overcome the device rotation and activity destroys and recreate scenario
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.ui_base, new Event_UI()).commit();
+            navigationView.setCheckedItem(R.id.nav_event);
+        }
 
 
     }
