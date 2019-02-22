@@ -68,14 +68,14 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("please wait");
         //show message
         progressDialog.show();
-        firebaseAuth.signInWithEmailAndPassword(Username.toString(), Password.toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        firebaseAuth.signInWithEmailAndPassword(Username.toString().trim(), Password.toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     //remove message as teh verification is done
                     progressDialog.dismiss();
                     Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 }else{
                     progressDialog.dismiss();
                     Toast.makeText(LoginActivity.this,"Login Failed",Toast.LENGTH_SHORT).show();
