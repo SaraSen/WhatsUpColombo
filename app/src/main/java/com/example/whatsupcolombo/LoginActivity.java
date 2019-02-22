@@ -68,19 +68,33 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("please wait");
         //show message
         progressDialog.show();
-        firebaseAuth.signInWithEmailAndPassword(Username.toString().trim(), Password.toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        firebaseAuth.signInWithEmailAndPassword(userNmae, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     //remove message as teh verification is done
                     progressDialog.dismiss();
-                    Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                }else{
+                    checkEmailVerification();
+
+                } else {
                     progressDialog.dismiss();
-                    Toast.makeText(LoginActivity.this,"Login Failed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void checkEmailVerification() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        Boolean EmailFlag = firebaseUser.isEmailVerified();
+        if (EmailFlag) {
+            //access in if verified
+            finish();
+            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+        } else {
+            //ask user to be verified and singed out
+            Toast.makeText(LoginActivity.this,"Please Verify your Email",Toast.LENGTH_LONG).show();
+            firebaseAuth.signOut();
+        }
     }
 }
