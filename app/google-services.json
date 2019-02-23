@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "465311168274-n44mr2704obquhb5t5nnshu6tsn8dqrc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.whatsupcolombo",
+            "certificate_hash": "f101b82f81e954f80df655907590d363ec39163b"
+          }
+        },
+        {
           "client_id": "465311168274-ffaifjs9lfd02356nua97oibphqf7j10.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465311168274-ffaifjs9lfd02356nua97oibphqf7j10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
