@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView SignUp;
     private FirebaseAuth firebaseAuth; //import auth libs of firebase
     private ProgressDialog progressDialog;
+    private TextView ForgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,14 @@ public class LoginActivity extends AppCompatActivity {
                 validate(Username.getText().toString(), Password.getText().toString());
             }
         });
+
+        ForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
+            }
+        });
     }
 
     private void setUpUI() {
@@ -61,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         Password = (EditText) findViewById(R.id.etPassword);
         Login = (Button) findViewById(R.id.btnLogin);
         SignUp = (TextView) findViewById(R.id.tvRegister);
+        ForgotPassword = (TextView) findViewById(R.id.tvForegetPW);
     }
 
     private void validate(String userNmae, String userPassword) {
@@ -90,10 +100,10 @@ public class LoginActivity extends AppCompatActivity {
         if (EmailFlag) {
             //access in if verified
             finish();
-            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         } else {
             //ask user to be verified and singed out
-            Toast.makeText(LoginActivity.this,"Please Verify your Email",Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Please Verify your Email", Toast.LENGTH_LONG).show();
             firebaseAuth.signOut();
         }
     }
