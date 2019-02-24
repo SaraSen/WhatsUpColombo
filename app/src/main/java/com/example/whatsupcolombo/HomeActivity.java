@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -71,13 +74,36 @@ public class HomeActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
+
+        final Suggestion_UI sui = new Suggestion_UI();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.ui_container) {
             logout();
             return true;
         }
+        if (id == R.id.action_search) {
+            Toast.makeText(HomeActivity.this,"dsdsd",Toast.LENGTH_LONG).show();
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    String x = s;
+                    sui.firebaseSearch(s);
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    //filter while type
+                    sui.firebaseSearch(s);
+                    return false;
+                }
+            });
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -108,10 +134,11 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    private void logout(){
+    private void logout() {
+        Log.d("MyApp", "Logged out");
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signOut();
         finish();
-        startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
     }
 }
