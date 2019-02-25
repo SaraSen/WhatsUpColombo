@@ -1,7 +1,11 @@
 package com.example.whatsupcolombo;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +39,9 @@ public class Suggestion_UI extends Fragment {
     RecyclerView recyclerView;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    LinearLayoutManager mlinearLayoutManager; //for sorting
+    SharedPreferences msharedPreferences; //for saving sort settings
+    private Button sortbutton;
 
 
     @Nullable
@@ -49,12 +57,32 @@ public class Suggestion_UI extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
+        msharedPreferences = this.getActivity().getSharedPreferences("SortSettings", Context.MODE_PRIVATE);
+        String mSorting = msharedPreferences.getString("Sort", "newest"); // default settings
+
+
+        if (mSorting.equalsIgnoreCase("newest")) {
+            mlinearLayoutManager = new LinearLayoutManager(getActivity());
+            //to load items from bottom
+            mlinearLayoutManager.setReverseLayout(true);
+            mlinearLayoutManager.setStackFromEnd(true);
+        } else {
+            mlinearLayoutManager = new LinearLayoutManager(getActivity());
+            //to load items from bottom
+            mlinearLayoutManager.setReverseLayout(false);
+            mlinearLayoutManager.setStackFromEnd(false);
+        }
+
         //set layout as liner layout
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(mlinearLayoutManager);
 
         //send query to firebase
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Data");
+
+
+
+
 
         return rootView;
 
@@ -119,6 +147,13 @@ public class Suggestion_UI extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        sortbutton = (Button) getActivity().findViewById(R.id.btn_sort);
+        sortbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSortDialog();
+            }
+        });
         FirebaseRecyclerAdapter<EventDisplayModel, EventViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<EventDisplayModel, EventViewHolder>(
                         EventDisplayModel.class,
@@ -174,7 +209,6 @@ public class Suggestion_UI extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
         Log.d("MyApp", "I am here");
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
@@ -193,6 +227,8 @@ public class Suggestion_UI extends Fragment {
                 return false;
             }
         });
+        super.onCreateOptionsMenu(menu, inflater);
+
 
 
     }
@@ -201,8 +237,47 @@ public class Suggestion_UI extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        if (id == R.id.action_sort) {
+            //display alert dialog to choose sorting
+            showSortDialog();
+        }
+
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showSortDialog() {
+        //options to display in dialog
+        String[] sortOptions = {" Newest", " Oldest"};
+        //create alert dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Sort by")//set title
+                .setIcon(R.drawable.ic_sort)//set Icon
+                .setItems(sortOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // the 'which' contains the index position of the selected item
+                        // 0 is Newest
+                        if (which == 0) {
+                            //sort by newest
+                            //edit the shared preference
+                            SharedPreferences.Editor editor = msharedPreferences.edit();
+                            editor.putString("Sort","newest");//sort is the key newest is value
+                            editor.apply();//apply to save value in shared preference
+                            getActivity().recreate();//restart activity to take effects
+
+                        } else {
+                            //sort by oldest
+                            //edit the shared preference
+                            SharedPreferences.Editor editor = msharedPreferences.edit();
+                            editor.putString("Sort","oldest");//sort is the key oldest is value
+                            editor.apply();//apply to save value in shared preference
+                            getActivity().recreate();//restart activity to take effects
+                        }
+
+                    }
+                });
+        builder.show();
     }
 }
 
