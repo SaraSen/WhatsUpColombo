@@ -104,6 +104,12 @@ public class HomeActivity extends AppCompatActivity
             });
         }
 
+        if (id==R.id.action_add){
+            //start add event activity
+            startActivity(new Intent(HomeActivity.this,AddEventActivity.class));
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
