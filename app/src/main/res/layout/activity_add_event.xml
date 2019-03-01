@@ -32,14 +32,30 @@
             android:minHeight="100sp"
             android:gravity="top"/>
         <Button
+            android:id="@+id/pAdmappBTN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Location"
+            android:textColor="#000"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/pLocationTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="location data"
+            android:layout_marginTop="10sp"
+            android:textSize="18sp"/>
+        <Button
             android:id="@+id/pSubmitBtn"
+            android:layout_marginTop="50sp"
             android:layout_width="200sp"
             android:layout_height="wrap_content"
             android:text="Submit"
             android:textSize="18sp"
             android:textColor="#fff"
             android:background="#e74c3c"
-            android:layout_gravity="end"/>
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 </ScrollView>

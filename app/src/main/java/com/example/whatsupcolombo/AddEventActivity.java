@@ -1,14 +1,12 @@
 package com.example.whatsupcolombo;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,8 +17,11 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -30,14 +31,18 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-
 public class AddEventActivity extends AppCompatActivity {
+
+    private static final String TAG = "AddLocationActivity";
+
+    //error that woul put out if the user do not have the right version of google play services
+    private static final int ERROR_DIALOG_REQUEST = 9001;
 
     private EditText mTitleTv, mDescriptionTv;
     private ImageView mImamgeImg;
     private Button mSubmitBtn;
+    private Button pAdmappBTN;
+    private TextView pLocationTv;
 
     //folder path to Firebase Storage
     String mStoragePath = "Image_Uploads/";
@@ -63,6 +68,9 @@ public class AddEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
         setupUi();
+        if (isSErvicesOK()) {
+            init();
+        }
 
 
         //image click to load image
@@ -115,13 +123,14 @@ public class AddEventActivity extends AppCompatActivity {
                     String mEventTitle = mTitleTv.getText().toString().trim();
                     //get description
                     String mDescrition = mDescriptionTv.getText().toString().trim();
+                    String mLocationTv = pLocationTv.getText().toString().trim();
                     //hide prgressbar
                     mProgressDialog.dismiss();
                     //show toast that image is uploaded
                     Toast.makeText(AddEventActivity.this, "uploaded successfully", Toast.LENGTH_LONG).show();
                     ;
-                    ImageUploadInfo imageUploadInfo = new ImageUploadInfo(mEventTitle, mDescrition, taskSnapshot.getStorage().getDownloadUrl().toString(), mEventTitle.toLowerCase());
-                    Log.d("loggg",taskSnapshot.toString());
+                    ImageUploadInfo imageUploadInfo = new ImageUploadInfo(mEventTitle, mDescrition, taskSnapshot.getStorage().getDownloadUrl().toString(), mEventTitle.toLowerCase(), mLocationTv);
+                    Log.d("loggg", taskSnapshot.toString());
                     //getting image upload id
                     String imageUploadID = mDatabaseReference.push().getKey();
                     //add image upload id child elemnet to database reference
@@ -163,12 +172,14 @@ public class AddEventActivity extends AppCompatActivity {
         mDescriptionTv = (EditText) findViewById(R.id.pDescriptionEt);
         mImamgeImg = (ImageView) findViewById(R.id.pImageIV);
         mSubmitBtn = (Button) findViewById(R.id.pSubmitBtn);
+        pAdmappBTN = (Button) findViewById(R.id.pAdmappBTN);
+        pLocationTv = (TextView) findViewById(R.id.pLocationTv);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null ) {
+        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
 
             mFilepath = data.getData();
 
@@ -189,4 +200,33 @@ public class AddEventActivity extends AppCompatActivity {
         }
     }
 
+    private void init() {
+        pAdmappBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddEventActivity.this, MapSelectActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public boolean isSErvicesOK() {
+        Log.d(TAG, "isSErvicesOK: check google service verison");
+        int available = (int) GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(AddEventActivity.this);
+
+        if (available == ConnectionResult.SUCCESS) {
+            // user can make map request
+            Log.d(TAG, "isSErvicesOK: google play srvices ok");
+            return true;
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
+            //error okkorde but is fixanle
+            Log.d(TAG, "isSErvicesOK: error occured but we can fix it");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(AddEventActivity.this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        } else {
+            //eroor occured aunfixable
+            Toast.makeText(this, "You cannot load Map right now", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
 }
