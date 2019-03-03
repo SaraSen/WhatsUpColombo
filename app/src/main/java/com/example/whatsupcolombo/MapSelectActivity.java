@@ -64,7 +64,7 @@ public class MapSelectActivity extends FragmentActivity implements OnMapReadyCal
                                 searchmarkerOptions.title(address);
                                 mMap.addMarker(searchmarkerOptions);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                                mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
+                                mMap.moveCamera(CameraUpdateFactory.zoomTo(14));
                             }
                         } else {
                             Toast.makeText(MapSelectActivity.this, "location not found", Toast.LENGTH_SHORT).show();
