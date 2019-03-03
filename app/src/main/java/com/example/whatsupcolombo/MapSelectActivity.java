@@ -7,17 +7,15 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import com.example.whatsupcolombo.R;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,46 +27,55 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.AsyncTask;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.util.Log;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.io.IOException;
-import java.util.List;
-
-public class MapSelectActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MapSelectActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     LocationManager locationManager;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     Marker marker;
     LocationListener locationListener;
+    private EditText locationselector;
+    private Button searchbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_select);
+        locationselector = (EditText) findViewById(R.id.locationet);
+        searchbutton = (Button) findViewById(R.id.searhlocation);
+
+        searchbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String address = locationselector.getText().toString().trim();
+                List<Address> addressList = null;
+                MarkerOptions searchmarkerOptions = new MarkerOptions();
+                if (TextUtils.isEmpty(address)) {
+                    Toast.makeText(MapSelectActivity.this, "please enter a location", Toast.LENGTH_SHORT).show();
+                } else {
+                    Geocoder geocoder = new Geocoder(MapSelectActivity.this);
+                    try {
+                        addressList = geocoder.getFromLocationName(address, 6);
+                        if(addressList != null){
+                            for (int i = 0; i < addressList.size(); i++) {
+                                Address searchAddress = addressList.get(i);
+                                LatLng latLng = new LatLng(searchAddress.getLatitude(), searchAddress.getLongitude());
+                               searchmarkerOptions.position(latLng);
+                               searchmarkerOptions.title(address);
+                               mMap.addMarker(searchmarkerOptions);
+                               mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                               mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
+                            }
+                        }else{
+                            Toast.makeText(MapSelectActivity.this, "location not found", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -91,19 +98,18 @@ public class MapSelectActivity extends FragmentActivity implements OnMapReadyCal
                 try {
                     List<Address> addresses =
                             geocoder.getFromLocation(latitude, longitude, 1);
-                    String result = addresses.get(0).getLocality()+":";
+                    String result = addresses.get(0).getLocality() + ":";
                     result += addresses.get(0).getCountryName();
                     LatLng latLng = new LatLng(latitude, longitude);
-                    if (marker != null){
+                    if (marker != null) {
                         marker.remove();
                         marker = mMap.addMarker(new MarkerOptions().position(latLng).title(result));
                         mMap.setMaxZoomPreference(20);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
-                    }
-                    else{
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20.0f));
+                    } else {
                         marker = mMap.addMarker(new MarkerOptions().position(latLng).title(result));
                         mMap.setMaxZoomPreference(20);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 21.0f));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 24.0f));
                     }
 
 
@@ -126,6 +132,9 @@ public class MapSelectActivity extends FragmentActivity implements OnMapReadyCal
             public void onProviderDisabled(String provider) {
 
             }
+
+
+
         };
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
@@ -145,10 +154,7 @@ public class MapSelectActivity extends FragmentActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
 
     @Override
