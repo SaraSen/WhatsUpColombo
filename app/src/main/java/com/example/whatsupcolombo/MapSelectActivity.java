@@ -56,17 +56,17 @@ public class MapSelectActivity extends FragmentActivity implements OnMapReadyCal
                     Geocoder geocoder = new Geocoder(MapSelectActivity.this);
                     try {
                         addressList = geocoder.getFromLocationName(address, 6);
-                        if(addressList != null){
+                        if (addressList != null) {
                             for (int i = 0; i < addressList.size(); i++) {
                                 Address searchAddress = addressList.get(i);
                                 LatLng latLng = new LatLng(searchAddress.getLatitude(), searchAddress.getLongitude());
-                               searchmarkerOptions.position(latLng);
-                               searchmarkerOptions.title(address);
-                               mMap.addMarker(searchmarkerOptions);
-                               mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                               mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
+                                searchmarkerOptions.position(latLng);
+                                searchmarkerOptions.title(address);
+                                mMap.addMarker(searchmarkerOptions);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                                mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
                             }
-                        }else{
+                        } else {
                             Toast.makeText(MapSelectActivity.this, "location not found", Toast.LENGTH_SHORT).show();
                         }
                     } catch (IOException e) {
@@ -132,7 +132,6 @@ public class MapSelectActivity extends FragmentActivity implements OnMapReadyCal
             public void onProviderDisabled(String provider) {
 
             }
-
 
 
         };
