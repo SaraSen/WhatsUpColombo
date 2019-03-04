@@ -1,6 +1,7 @@
 package com.example.whatsupcolombo;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -36,6 +37,9 @@ public class MapSelectActivity extends FragmentActivity implements OnMapReadyCal
     LocationListener locationListener;
     private EditText locationselector;
     private Button searchbutton;
+    private Button locationsubmitbtn;
+    Address searchAddress;
+    String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +47,24 @@ public class MapSelectActivity extends FragmentActivity implements OnMapReadyCal
         setContentView(R.layout.activity_map_select);
         locationselector = (EditText) findViewById(R.id.locationet);
         searchbutton = (Button) findViewById(R.id.searhlocation);
+        locationsubmitbtn = (Button) findViewById(R.id.locationsubmit);
+
+        locationsubmitbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String location = String.valueOf(searchAddress.getLatitude()) + "," + String.valueOf(searchAddress.getLongitude());
+                Intent intent = new Intent();
+                intent.putExtra("LocationValue", location);
+                intent.putExtra("uservalue", address);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
 
         searchbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String address = locationselector.getText().toString().trim();
+                address = locationselector.getText().toString().trim();
                 List<Address> addressList = null;
                 MarkerOptions searchmarkerOptions = new MarkerOptions();
                 if (TextUtils.isEmpty(address)) {
@@ -58,7 +75,7 @@ public class MapSelectActivity extends FragmentActivity implements OnMapReadyCal
                         addressList = geocoder.getFromLocationName(address, 6);
                         if (addressList != null) {
                             for (int i = 0; i < addressList.size(); i++) {
-                                Address searchAddress = addressList.get(i);
+                                searchAddress = addressList.get(i);
                                 LatLng latLng = new LatLng(searchAddress.getLatitude(), searchAddress.getLongitude());
                                 searchmarkerOptions.position(latLng);
                                 searchmarkerOptions.title(address);

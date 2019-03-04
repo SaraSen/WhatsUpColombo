@@ -13,6 +13,7 @@ public class EventDataActivity extends AppCompatActivity {
     private TextView title;
     private ImageView imageView;
     private TextView description;
+    private TextView location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +33,13 @@ public class EventDataActivity extends AppCompatActivity {
         byte[] bytes = getIntent().getByteArrayExtra("image");
         String Gtitle = getIntent().getStringExtra("title");
         String Gdescription = getIntent().getStringExtra("description");
+        String gLocation = getIntent().getStringExtra("location");
         Bitmap Gbitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
 
         //set data
         title.setText(Gtitle);
         description.setText(Gdescription);
+        location.setText(gLocation);
         imageView.setImageBitmap(Gbitmap);
 
 
@@ -54,5 +57,6 @@ public class EventDataActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.data_tv_title);
         imageView = (ImageView) findViewById(R.id.data_img_eventphoto);
         description = (TextView) findViewById(R.id.data_tv_description);
+        location = (TextView) findViewById(R.id.data_tv_location);
     }
 }

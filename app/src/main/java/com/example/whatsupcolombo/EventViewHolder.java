@@ -15,6 +15,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder {
     private TextView Title;
     private ImageView ImageIcon;
     private TextView Ddescription;
+    private TextView Llocation;
 
     public EventViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -40,17 +41,19 @@ public class EventViewHolder extends RecyclerView.ViewHolder {
     }
 
     //set details to recyclerview row
-    public void setDetails(Context context, String TitleText, String DescriptionText, String Image) {
+    public void setDetails(Context context, String TitleText, String DescriptionText, String Image, String location) {
         //Views
         setupUI();
         //set data to views
         Title.setText(TitleText);
         Ddescription.setText(DescriptionText);
+        Llocation.setText(location);
         Picasso.get().load(Image).into(ImageIcon);
 
         EventDisplayModel ev = new EventDisplayModel();
         ev.setTitle(TitleText);
         ev.setDescription(DescriptionText);
+        ev.setLocation(location);
 
 
     }
@@ -61,6 +64,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder {
         Title=EventView.findViewById(R.id.tv_title);
         ImageIcon=EventView.findViewById(R.id.img_eventphoto);
         Ddescription=EventView.findViewById(R.id.tv_description);
+        Llocation = EventView.findViewById(R.id.tv_location);
     }
 
     //interface to send callback

@@ -23,6 +23,16 @@
             android:layout_alignParentTop="true"
             android:background="@drawable/ic_search_black"
             />
+        <Button
+            android:id="@+id/locationsubmit"
+            android:layout_width="match_parent"
+            android:text="Submit"
+            android:textSize="18sp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50sp"
+            android:background="#e74c3c"
+            />
     </RelativeLayout>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,5 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MapSelectActivity"
-        android:layout_marginTop="50sp"/>
+        android:layout_marginTop="100sp"
+        />
+
+
 </RelativeLayout>

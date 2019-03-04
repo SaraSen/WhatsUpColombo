@@ -48,6 +48,7 @@ public class AddEventActivity extends AppCompatActivity {
     String mStoragePath = "Image_Uploads/";
     //root path fore firebase database
     String mDatabasePAth = "Data";
+    String strlocation;
 
     //creating URI
     Uri mFilepath;
@@ -129,7 +130,7 @@ public class AddEventActivity extends AppCompatActivity {
                     //show toast that image is uploaded
                     Toast.makeText(AddEventActivity.this, "uploaded successfully", Toast.LENGTH_LONG).show();
                     ;
-                    ImageUploadInfo imageUploadInfo = new ImageUploadInfo(mEventTitle, mDescrition, taskSnapshot.getStorage().getDownloadUrl().toString(), mEventTitle.toLowerCase(), mLocationTv);
+                    ImageUploadInfo imageUploadInfo = new ImageUploadInfo(mEventTitle, mDescrition, taskSnapshot.getStorage().getDownloadUrl().toString(), mEventTitle.toLowerCase(), strlocation);
                     Log.d("loggg", taskSnapshot.toString());
                     //getting image upload id
                     String imageUploadID = mDatabaseReference.push().getKey();
@@ -179,7 +180,16 @@ public class AddEventActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+        if (requestCode == 101) {
+            if(resultCode == RESULT_OK) {
+                assert data != null;
+                strlocation = data.getStringExtra("LocationValue");
+                String userlocation = data.getStringExtra("uservalue");
+                pLocationTv.setText(userlocation);
+            }
+        }
+
+       else if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
 
             mFilepath = data.getData();
 
@@ -204,11 +214,12 @@ public class AddEventActivity extends AppCompatActivity {
         pAdmappBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddEventActivity.this, MapSelectActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(AddEventActivity.this, MapSelectActivity.class);
+                startActivityForResult(new Intent(getApplicationContext(),MapSelectActivity.class),101);
             }
         });
     }
+
 
     public boolean isSErvicesOK() {
         Log.d(TAG, "isSErvicesOK: check google service verison");

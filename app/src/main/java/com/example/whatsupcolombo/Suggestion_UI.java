@@ -99,7 +99,7 @@ public class Suggestion_UI extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(EventViewHolder viewHolder, EventDisplayModel model, int position) {
-                viewHolder.setDetails(getActivity().getApplicationContext(), model.getTitle(), model.getDescription(), model.getImage());
+                viewHolder.setDetails(getActivity().getApplicationContext(), model.getTitle(), model.getDescription(), model.getImage(), model.getLocation());
             }
 
             @Override
@@ -111,11 +111,13 @@ public class Suggestion_UI extends Fragment {
                         //Viewa
                         TextView tv_tilte = view.findViewById(R.id.tv_title);
                         TextView tv_description = view.findViewById(R.id.tv_description);
+                        TextView tv_location = view.findViewById(R.id.data_tv_location);
                         ImageView tmg_Image = view.findViewById(R.id.img_eventphoto);
 
                         //get data
                         String title = tv_tilte.getText().toString();
                         String decription = tv_description.getText().toString();
+                        String location = tv_location.getText().toString();
                         Drawable drawable = tmg_Image.getDrawable();
                         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
@@ -127,6 +129,7 @@ public class Suggestion_UI extends Fragment {
                         intent.putExtra("image", bytes);
                         intent.putExtra("title", title);
                         intent.putExtra("description", decription);
+                        intent.putExtra("location",location);
                         startActivity(intent);
                     }
 
@@ -163,7 +166,7 @@ public class Suggestion_UI extends Fragment {
                 ) {
                     @Override
                     protected void populateViewHolder(EventViewHolder viewHolder, EventDisplayModel model, int position) {
-                        viewHolder.setDetails(getActivity().getApplicationContext(), model.getTitle(), model.getDescription(), model.getImage());
+                        viewHolder.setDetails(getActivity().getApplicationContext(), model.getTitle(), model.getDescription(), model.getImage(), model.getLocation());
                     }
 
                     @Override
@@ -175,11 +178,13 @@ public class Suggestion_UI extends Fragment {
                                 //Viewa
                                 TextView tv_tilte = view.findViewById(R.id.tv_title);
                                 TextView tv_description = view.findViewById(R.id.tv_description);
+                                TextView tv_location = view.findViewById(R.id.tv_location);
                                 ImageView tmg_Image = view.findViewById(R.id.img_eventphoto);
 
                                 //get data
                                 String title = tv_tilte.getText().toString();
                                 String decription = tv_description.getText().toString();
+                                String location = tv_location.getText().toString();
                                 Drawable drawable = tmg_Image.getDrawable();
                                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
@@ -191,6 +196,7 @@ public class Suggestion_UI extends Fragment {
                                 intent.putExtra("image", bytes);
                                 intent.putExtra("title", title);
                                 intent.putExtra("description", decription);
+                                intent.putExtra("location",location);
                                 startActivity(intent);
                             }
 

@@ -7,6 +7,15 @@ public class EventDisplayModel {
     public String title;
     public String image;
     public String description;
+    public String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     //constructor
     public EventDisplayModel() {
