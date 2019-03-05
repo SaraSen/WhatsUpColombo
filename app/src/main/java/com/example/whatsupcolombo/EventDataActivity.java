@@ -1,10 +1,13 @@
 package com.example.whatsupcolombo;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +17,7 @@ public class EventDataActivity extends AppCompatActivity {
     private ImageView imageView;
     private TextView description;
     private TextView location;
+    private Button viewLocationbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,16 @@ public class EventDataActivity extends AppCompatActivity {
         location.setText(gLocation);
         imageView.setImageBitmap(Gbitmap);
 
+        //go to view maps
+        viewLocationbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventDataActivity.this,ViewMapsActivity.class);
+                intent.putExtra("EventLocation",location.getText().toString());
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -58,5 +72,6 @@ public class EventDataActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.data_img_eventphoto);
         description = (TextView) findViewById(R.id.data_tv_description);
         location = (TextView) findViewById(R.id.data_tv_location);
+        viewLocationbutton = (Button) findViewById(R.id.data_view_location);
     }
 }

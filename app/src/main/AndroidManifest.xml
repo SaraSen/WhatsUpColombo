@@ -35,8 +35,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".ViewMapsActivity"
+            android:label="@string/title_activity_demo_maps"></activity>
+        <activity
             android:name=".MapSelectActivity"
-            android:label="@string/title_activity_map_select"></activity>
+            android:label="@string/title_activity_map_select" />
 
         <meta-data
             android:name="com.google.android.gms.version"
