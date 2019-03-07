@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity
         //to overcome the device rotation and activity destroys and recreate scenario
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.ui_base, new Event_UI()).commit();
-            navigationView.setCheckedItem(R.id.nav_event);
+            navigationView.setCheckedItem(R.id.nav_suggest);
         }
 
 

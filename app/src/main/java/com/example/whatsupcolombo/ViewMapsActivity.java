@@ -48,5 +48,7 @@ public class ViewMapsActivity extends FragmentActivity implements OnMapReadyCall
             return;
         }
         mMap.setMyLocationEnabled(true);
+        mMap.setContentDescription(eventLocation);
+        mMap.setBuildingsEnabled(true);
     }
 }

@@ -129,8 +129,8 @@ public class AddEventActivity extends AppCompatActivity {
                     mProgressDialog.dismiss();
                     //show toast that image is uploaded
                     Toast.makeText(AddEventActivity.this, "uploaded successfully", Toast.LENGTH_LONG).show();
-                    ;
-                    ImageUploadInfo imageUploadInfo = new ImageUploadInfo(mEventTitle, mDescrition, taskSnapshot.getStorage().getDownloadUrl().toString(), mEventTitle.toLowerCase(), strlocation);
+
+                    ImageUploadInfo imageUploadInfo = new ImageUploadInfo(mEventTitle, mDescrition, taskSnapshot.getMetadata().getReference().getDownloadUrl().toString(), mEventTitle.toLowerCase(), strlocation);
                     Log.d("loggg", taskSnapshot.toString());
                     //getting image upload id
                     String imageUploadID = mDatabaseReference.push().getKey();
