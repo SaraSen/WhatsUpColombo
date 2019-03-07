@@ -54,4 +54,4 @@ Java JDK installed Environmental variable are properly configured with JAVA_HOME
 * **Sajana Githoshsa** - *Development* 
 * **Saroj Senadheera** - *Initial work, Development* - [SaraSen](https://github.com/SaraSen)
 
-View our [Contributes](https://github.com/SaraSen/WhatsUpColombo/graphs/contributors) from here
+View our [Contributers](https://github.com/SaraSen/WhatsUpColombo/graphs/contributors) from here
