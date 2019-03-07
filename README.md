@@ -25,7 +25,7 @@ Android studio installed with SDK, Intel HAXM driver and Gogle play services
 * **Nethmini Romina** - *Development* - [Nethminiromina](https://github.com/Nethminiromina)
 * **Lakshika Jayaweera** - *Development* - [lakshikaRasangi](https://github.com/lakshikaRasangi)
 * **Naveen Chanaka Pathirathna** - *Development* - [Pathirathnanc](https://github.com/Pathirathnanc)
-* **Buddhi Kaushalya** - *Development* 
+* **Buddhi Kaushalya** - *Development* - [BuddhiKaushalya](https://github.com/BuddhiKaushalya)
 * **Sajana Githoshsa** - *Development* 
 * **Saroj Senadheera** - *Initial work, Development* - [SaraSen](https://github.com/SaraSen)
 
