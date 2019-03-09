@@ -57,6 +57,7 @@ public class Suggestion_UI extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
+        //set override default order
         msharedPreferences = this.getActivity().getSharedPreferences("SortSettings", Context.MODE_PRIVATE);
         String mSorting = msharedPreferences.getString("Sort", "newest"); // default settings
 

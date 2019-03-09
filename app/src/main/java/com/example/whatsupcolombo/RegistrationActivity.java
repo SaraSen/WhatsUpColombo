@@ -85,7 +85,7 @@ public class RegistrationActivity extends AppCompatActivity {
             Toast.makeText(this, "Please Enter the required details", Toast.LENGTH_SHORT).show();
 
             //if passwords != confpassword display message
-            if (!(Password.getText().toString().equalsIgnoreCase(ConfirmPassword.getText().toString()))) {
+            if (!(Password.getText().toString().equals(ConfirmPassword.getText().toString()))) {
                 Toast.makeText(this, "Password and Confirm passwords should match", Toast.LENGTH_LONG).show();
             }
         } else {
